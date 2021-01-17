@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b93d8fe8-b2bb-47c5-835a-9b9b6e3bef90" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1nCbJqRCvcu37j8wR9VveZWV950" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Application.Client_3">
+    <configuration name="Client_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SPD.XMPP.Chat.Client_2" />
+      <module name="SDP_OnlineDeliveryProtocol-master-master" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SPD.XMPP.Chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Client_3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SPD.XMPP.Chat.Client_3" />
+      <module name="SDP_OnlineDeliveryProtocol-master-master" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SPD.XMPP.Chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XMPPChatClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SPD.XMPP.Chat.XMPPChatClient" />
+      <module name="SDP_OnlineDeliveryProtocol-master-master" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SPD.XMPP.Chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XMPPChatServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SPD.XMPP.Chat.XMPPChatServer" />
+      <module name="SDP_OnlineDeliveryProtocol-master-master" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SPD.XMPP.Chat.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Client_3" />
+        <item itemvalue="Application.XMPPChatClient" />
+        <item itemvalue="Application.Client_2" />
+        <item itemvalue="Application.XMPPChatServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b93d8fe8-b2bb-47c5-835a-9b9b6e3bef90" name="Default Changelist" comment="" />
+      <created>1610896953615</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610896953615</updated>
+    </task>
+    <servers />
+  </component>
+</project>
