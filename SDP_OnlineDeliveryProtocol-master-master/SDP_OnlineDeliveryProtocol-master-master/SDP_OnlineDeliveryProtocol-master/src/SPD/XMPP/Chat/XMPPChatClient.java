@@ -257,7 +257,7 @@ public class XMPPChatClient extends FSM implements IFSM {
     static String SERVER_URL = "";
     static String SERVER_IP = "";
     public static void main(String[] args) throws Exception{
-	// write your code here
+        // write your code here
         //client
         XMPPChatClient XMPPChatClientFSM = new XMPPChatClient(0);
         TcpTransportClient tcpFSM = new TcpTransportClient(5);

@@ -225,7 +225,6 @@ public class XMPPChatServer extends FSM implements IFSM {
                     System.out.println(i.getFEEDBACK());
                     System.out.println(users_location);
                     sendMessage(response);
-                    break;
                     }
             }
             System.out.println(feedback);
