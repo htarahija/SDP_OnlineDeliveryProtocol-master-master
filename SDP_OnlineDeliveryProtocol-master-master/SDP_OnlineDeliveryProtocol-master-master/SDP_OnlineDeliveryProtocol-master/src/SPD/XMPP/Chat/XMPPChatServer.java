@@ -103,12 +103,26 @@ public class XMPPChatServer extends FSM implements IFSM {
 
     public void sendingSortedItems(IMessage message){
         Message msg = (Message) message;
-        //Items item = new Items ("Samsung", 10);
-        //items.add(item);
-        //System.out.println(items);
-        Message response = new Message(Message.Types.SENDING_ITEMS);
+        ArrayList<Items> items_2 = new ArrayList<Items>();
+        ArrayList<Items> items_3 = new ArrayList<Items>();
+        for (Items i : items) {
+           items_3.add(i);
+        }
+        Message response = new Message(Message.Types.SENDING_AVAILABLE_ITEMS);
+        for (int i = 0; i < items_3.size() - 1; i++)
+        {
+            for(int j = 0; j < items_3.size() - 1; j++)
+            {
+                if(items_3.get(i).getCOUNT() < items_3.get(j+1).getCOUNT())
+                {
+                    Items item = items_3.get(j+1);
+                    items_3.set(j+1,items_3.get(i));
+                    items_3.set(i,item);
+                }
+            }
+        }
         response.setToAddress(msg.getFromAddress());
-        response.addParam(Message.Params.ITEMS, items);
+        response.addParam(Message.Params.ITEMS, items_3);
         sendMessage(response);
     }
 
@@ -117,11 +131,11 @@ public class XMPPChatServer extends FSM implements IFSM {
         ArrayList<Items> items_2 = new ArrayList<Items>();
         Message response = new Message(Message.Types.SENDING_SORTED_ITEMS);
         for (Items i : items) {
-            if(item.getCOUNT().equals(i)) {
-                found = true;
-                break;
+            if(i.getCOUNT() > 0) {
+                items_2.add(i);
             }
-        }        response.setToAddress(msg.getFromAddress());
+        }
+        response.setToAddress(msg.getFromAddress());
         response.addParam(Message.Params.ITEMS, items_2);
         sendMessage(response);
     }
@@ -174,7 +188,7 @@ public class XMPPChatServer extends FSM implements IFSM {
             items_feedback.get(user).add(itemm);
         } else {
             System.out.println(itemm);
-            System.out.println(" NESadrži");
+            System.out.println("Nesadrži");
             items_feedback.put(user, items_for_Hash);
         }
         System.out.println(items_feedback);

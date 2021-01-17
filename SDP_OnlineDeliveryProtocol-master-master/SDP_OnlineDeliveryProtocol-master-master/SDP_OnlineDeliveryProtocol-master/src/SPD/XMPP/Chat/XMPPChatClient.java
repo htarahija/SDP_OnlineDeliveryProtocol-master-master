@@ -21,11 +21,11 @@ public class XMPPChatClient extends FSM implements IFSM {
     static int LOGIN_AFTER_REGISTRATION = 6;
     static int LOGINED_USER = 8;
     static int VIEW_PRODUCTS = 10;
-    static int VIEWING_LIST_USER = 12;
     static int VIEW_SORTED_PRODUCTS = 13;
     static int VIEW_AVAILABLE_PRODUCTS = 14;
     static int ORDER = 15;
     static int WRITE_FEEDBACK = 16;
+    static int VIEW_FEEDBACK = 17;
     public XMPPChatClient(int id) {
         super(id);
     }
@@ -46,10 +46,12 @@ public class XMPPChatClient extends FSM implements IFSM {
 
         addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_SORTED_ITEMS), "askingForSortedItems");
         addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForAvailableItems");
+        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForFeedbacks");
         addTransition(VIEW_SORTED_PRODUCTS, new Message(Message.Types.SENDING_SORTED_ITEMS), "reviewingSortedItems");
         addTransition(VIEW_AVAILABLE_PRODUCTS, new Message(Message.Types.SENDING_AVAILABLE_ITEMS), "reviewingAvailableItems");
+        addTransition(VIEW_FEEDBACK, new Message(Message.Types.SENDING_FEEDBACK), "reviewingFeedbacks");
         addTransition(ORDER, new Message(Message.Types.ORDER_ITEM), "orderAvailableItem");
-        addTransition(WRITE_FEEDBACK, new Message(Message.Types.FEEDBACK), "orderAvailableItem");
+        addTransition(WRITE_FEEDBACK, new Message(Message.Types.FEEDBACK), "writeFeedback");
 
     }
 
@@ -156,7 +158,7 @@ public class XMPPChatClient extends FSM implements IFSM {
     public void orderAvailableItem(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
-        System.out.println("NARUCI ITEM");
+        System.out.println("Naruči item: ");
         msg.setMessageId(Message.Types.ORDER_ITEM);
         Scanner input = new Scanner(System.in);
         String item_name = input.nextLine();
@@ -262,40 +264,21 @@ public class XMPPChatClient extends FSM implements IFSM {
 
         Thread.sleep(1000);
 
-        tempMsg = new Message(Message.Types.ASKING_FOR_ITEMS);
+        tempMsg = new Message(Message.Types.ASKING_FOR_SORTED_ITEMS);
         tempMsg.setToId(0);
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
-/*
-        tempMsg = new Message(Message.Types.ADD_ITEM);
+
+        tempMsg = new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "reha");
-        tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "adminn");
-        Items item = new Items("haba", 10);
-        tempMsg.addParam(Message.Params.ITEMS, item);
         dis.addMessage(tempMsg);
 
-//        Thread.sleep(10000);
-//
-//        tempMsg = new Message(Message.Types.DELETE_ITEM);
-//        tempMsg.setToId(0);
-//        dis.addMessage(tempMsg);
-
-*/
-
-        Thread.sleep(10000);
+        Thread.sleep(1000);
 
         tempMsg = new Message(Message.Types.ORDER_ITEM);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "reha");
-        tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "adminn");
         tempMsg.addParam(Message.Params.ORDER, "true");
-
         dis.addMessage(tempMsg);
 
         Thread.sleep(15000);
@@ -310,7 +293,7 @@ public class XMPPChatClient extends FSM implements IFSM {
         Scanner input_2 = new Scanner(System.in);
         Items itemm = new Items(input_2.nextLine(), input_2.nextInt());
         tempMsg.addParam(Message.Params.ITEMS, itemm);
-        tempMsg.addParam(Message.Params.FEEDBACK, "OVO JE GLUPO HAOS ELMEMI");
+        tempMsg.addParam(Message.Params.FEEDBACK, "Ovo je super!");
         dis.addMessage(tempMsg);
         Thread.sleep(10000);
 

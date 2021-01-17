@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b93d8fe8-b2bb-47c5-835a-9b9b6e3bef90" name="Default Changelist" comment="hare 2">
+    <list default="true" id="b93d8fe8-b2bb-47c5-835a-9b9b6e3bef90" name="Default Changelist" comment="hare 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master/src/MessageTemplate/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master/src/MessageTemplate/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master/src/SPD/XMPP/Chat/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master-master/SDP_OnlineDeliveryProtocol-master/src/SPD/XMPP/Chat/Items.java" afterDir="false" />
@@ -43,7 +43,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/CallEstablishment (1)" />
   </component>
-  <component name="RunManager" selected="Application.XMPPChatClient">
+  <component name="RunManager" selected="Application.XMPPChatServer">
     <configuration name="Client_2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SPD.XMPP.Chat.Client_2" />
       <module name="SDP_OnlineDeliveryProtocol-master-master" />
@@ -98,10 +98,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.XMPPChatServer" />
+        <item itemvalue="Application.Client_2" />
         <item itemvalue="Application.XMPPChatClient" />
         <item itemvalue="Application.Client_3" />
-        <item itemvalue="Application.Client_2" />
-        <item itemvalue="Application.XMPPChatServer" />
       </list>
     </recent_temporary>
   </component>
@@ -121,11 +121,19 @@
       <option name="project" value="LOCAL" />
       <updated>1610912654780</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="hare 3">
+      <created>1610922388472</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1610922388472</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="hare 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="hare 2" />
+    <MESSAGE value="hare 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="hare 3" />
   </component>
 </project>

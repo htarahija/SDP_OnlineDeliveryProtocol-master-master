@@ -34,6 +34,7 @@ public class Message implements IMessage, Cloneable {
         public static int ASKING_FOR_AVAILABLE_ITEMS = 13;
         public static int SENDING_SORTED_ITEMS = 14;
         public static int SENDING_AVAILABLE_ITEMS = 15;
+        public static int SENDING_FEEDBACK = 16;
         public static int RESOLVE_DOMAIN_NAME = 300;
         
     }

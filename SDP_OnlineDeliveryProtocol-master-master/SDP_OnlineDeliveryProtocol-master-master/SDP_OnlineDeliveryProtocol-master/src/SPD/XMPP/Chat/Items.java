@@ -33,6 +33,7 @@ public class Items implements Serializable, Cloneable {
         return Objects.equals(ITEM_NAME, items.ITEM_NAME);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(ITEM_NAME, COUNT);
@@ -65,6 +66,13 @@ public class Items implements Serializable, Cloneable {
         return  "ITEM_NAME='" + ITEM_NAME + '\'' +
                 ", COUNT=" + COUNT ;
 
+    }
+    public String getAVAILABLE() {
+        return AVAILABLE;
+    }
+
+    public void setAVAILABLE(String AVAILABLE) {
+        this.AVAILABLE = AVAILABLE;
     }
 
     public Items(String ITEM_NAME, Integer COUNT) {
