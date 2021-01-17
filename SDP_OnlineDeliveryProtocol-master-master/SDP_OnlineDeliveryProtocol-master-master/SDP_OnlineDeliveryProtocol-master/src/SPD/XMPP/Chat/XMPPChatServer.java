@@ -27,21 +27,21 @@ public class XMPPChatServer extends FSM implements IFSM {
 
     static int READY = 0;
 
-
-
     @Override
     public void init() {
-
         addTransition(READY, new Message(Message.Types.REGISTER_TO_SERVER), "onServerRegister");
         addTransition(READY, new Message(Message.Types.LOGIN_REQUEST), "checkRegisterLogin");
         addTransition(READY, new Message(Message.Types.REGISTRATION_REQUEST), "checkRegister");
         addTransition(READY, new Message(Message.Types.LOGIN_AFTER_REG), "checkRegisterLogin");
-        addTransition(READY, new Message(Message.Types.ASKING_FOR_ITEMS), "sendingItems");
-        addTransition(READY, new Message(Message.Types.ADD_ITEM), "addingItems");
+        addTransition(READY, new Message(Message.Types.ASKING_FOR_SORTED_ITEMS), "sendingSortedItems");
+        addTransition(READY, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "sendingAvailableItems");
         addTransition(READY, new Message(Message.Types.ORDER_ITEM), "orderingItems");
+        addTransition(READY, new Message(Message.Types.ADD_ITEM), "addingItems");
+        addTransition(READY, new Message(Message.Types.EDIT_ITEM), "editingItems");
         addTransition(READY, new Message(Message.Types.DELETE_ITEM), "deletionItems");
         addTransition(READY, new Message(Message.Types.WRITE_FEEDBACK), "getFeedback");
     }
+
 
     public void onServerRegister(IMessage message){
         Message msg = (Message) message;
@@ -101,7 +101,7 @@ public class XMPPChatServer extends FSM implements IFSM {
     // //
     //
 
-    public void sendingItems(IMessage message){
+    public void sendingSortedItems(IMessage message){
         Message msg = (Message) message;
         //Items item = new Items ("Samsung", 10);
         //items.add(item);
@@ -109,6 +109,20 @@ public class XMPPChatServer extends FSM implements IFSM {
         Message response = new Message(Message.Types.SENDING_ITEMS);
         response.setToAddress(msg.getFromAddress());
         response.addParam(Message.Params.ITEMS, items);
+        sendMessage(response);
+    }
+
+    public void sendingAvailableItems(IMessage message){
+        Message msg = (Message) message;
+        ArrayList<Items> items_2 = new ArrayList<Items>();
+        Message response = new Message(Message.Types.SENDING_SORTED_ITEMS);
+        for (Items i : items) {
+            if(item.getCOUNT().equals(i)) {
+                found = true;
+                break;
+            }
+        }        response.setToAddress(msg.getFromAddress());
+        response.addParam(Message.Params.ITEMS, items_2);
         sendMessage(response);
     }
 

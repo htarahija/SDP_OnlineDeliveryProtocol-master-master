@@ -26,10 +26,14 @@ public class Message implements IMessage, Cloneable {
         public static int ADD_ITEM = 12;
         public static int ORDER_ITEM = 13;
         public static int DELETE_ITEM = 14;
+        public static int EDIT_ITEM = 20;
         public static int WRITE_FEEDBACK = 15;
         public static int UNAUTHORISED = 16;
         public static int FEEDBACK = 17;
-
+        public static int ASKING_FOR_SORTED_ITEMS = 11;
+        public static int ASKING_FOR_AVAILABLE_ITEMS = 13;
+        public static int SENDING_SORTED_ITEMS = 14;
+        public static int SENDING_AVAILABLE_ITEMS = 15;
         public static int RESOLVE_DOMAIN_NAME = 300;
         
     }
@@ -43,6 +47,7 @@ public class Message implements IMessage, Cloneable {
         public static String TOKEN = "token";
         public static String ITEMS = "items";
         public static String FEEDBACK = "feedback";
+        public static String ORDER = "true";
     }
     private int messageId;
     private int toId = 5; //TCP machine ID

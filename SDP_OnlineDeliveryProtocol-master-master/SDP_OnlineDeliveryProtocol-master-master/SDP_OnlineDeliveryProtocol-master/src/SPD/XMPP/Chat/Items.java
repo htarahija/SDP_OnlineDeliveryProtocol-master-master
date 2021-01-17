@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Items implements Serializable, Cloneable {
     private String ITEM_NAME;
     public Integer COUNT;
+    private String AVAILABLE;
     ArrayList<String> FEEDBACK = new ArrayList<String>();
 
 
