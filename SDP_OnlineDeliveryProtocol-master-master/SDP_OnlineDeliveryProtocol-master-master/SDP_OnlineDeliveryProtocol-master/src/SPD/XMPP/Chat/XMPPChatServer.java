@@ -244,11 +244,10 @@ public class XMPPChatServer extends FSM implements IFSM {
 
     public void sendingFeedback(IMessage message) {
         Message msg = (Message) message;
-        String feedback = msg.getParam(Message.Params.FEEDBACK);
         Items itemmm = new Items();
         itemmm = (Items) msg.getParam(Message.Params.ITEMS, true);
         Users user = new Users(msg.getParam(Message.Params.USERNAME), msg.getParam(Message.Params.EMAIL), msg.getParam(Message.Params.PASSWORD), msg.getParam(Message.Params.ROLE));
-        Message response = new Message(Message.Types.FEEDBACK);
+        Message response = new Message(Message.Types.SENDING_FEEDBACK);
         for (Map.Entry<Users, ArrayList<Items>> entry : items_feedback.entrySet()) {
             Users userrrr = entry.getKey();
             LocalDate trenutno = LocalDate.now();

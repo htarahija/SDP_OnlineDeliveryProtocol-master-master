@@ -45,10 +45,10 @@ public class User extends FSM implements IFSM {
 
         addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_SORTED_ITEMS), "askingForSortedItems");
         addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForAvailableItems");
-        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForFeedbacks");
+        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_FEEDBACK), "askingForFeedbacks");
         addTransition(VIEW_SORTED_PRODUCTS, new Message(Message.Types.SENDING_SORTED_ITEMS), "reviewingSortedItems");
         addTransition(VIEW_AVAILABLE_PRODUCTS, new Message(Message.Types.SENDING_AVAILABLE_ITEMS), "reviewingAvailableItems");
-        addTransition(VIEW_FEEDBACK, new Message(Message.Types.ASKING_FOR_FEEDBACK), "reviewingFeedbacks");
+        addTransition(VIEW_FEEDBACK, new Message(Message.Types.SENDING_FEEDBACK), "reviewingFeedbacks");
         addTransition(ORDER, new Message(Message.Types.ORDER_ITEM), "orderAvailableItem");
         addTransition(WRITE_FEEDBACK, new Message(Message.Types.FEEDBACK), "writeFeedback");
 
