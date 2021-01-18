@@ -9,27 +9,23 @@ import FSM.IMessage;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class Client_3 extends FSM implements IFSM {
+public class User extends FSM implements IFSM {
     static String TOKEN = "123";
     static int IDLE = 0;
-    static int READY_TO_CONNECT = 1;
-    static int CONNECTING = 2;
-    static int LOGIN = 3;
+    static int LOGIN = 1;
     static int WAITING_FOR_RESPONSE = 4;
     static int REGISTRATION = 5;
     static int LOGIN_AFTER_REGISTRATION = 6;
-    static int LOGINED_ADMIN = 7;
     static int LOGINED_USER = 8;
-    static int REVIEW_ITEM_LISTS_ADMIN = 9;
-    static int REVIEW_ITEM_LISTS_USER = 10;
-    static int VIEWING_LIST_ADMIN = 11;
-    static int VIEWING_LIST_USER = 12;
-
-
-    public Client_3(int id) {
+    static int VIEW_PRODUCTS = 10;
+    static int VIEW_SORTED_PRODUCTS = 13;
+    static int VIEW_AVAILABLE_PRODUCTS = 14;
+    static int ORDER = 15;
+    static int WRITE_FEEDBACK = 16;
+    static int VIEW_FEEDBACK = 17;
+    public User(int id) {
         super(id);
     }
     @Override
@@ -39,47 +35,30 @@ public class Client_3 extends FSM implements IFSM {
         // REGISTRACIJA I LOGIN
 
         addTransition(IDLE, new Message(Message.Types.RESOLVE_DOMAIN_NAME), "resolveDomain");
-        addTransition(READY_TO_CONNECT, new Message(Message.Types.REGISTER_TO_SERVER), "registerOnServer");
-        addTransition(CONNECTING, new Message(Message.Types.CONNECTED_SUCCESSFULL), "connectionSuccessful");
         addTransition(LOGIN, new Message(Message.Types.LOGIN_REQUEST), "loginRequest");
-        addTransition(WAITING_FOR_RESPONSE, new Message(Message.Types.LOGIN_SUCCESSFUL_ADMIN), "loginSuccessAdmin");
         addTransition(WAITING_FOR_RESPONSE, new Message(Message.Types.LOGIN_SUCCESSFUL_USER), "loginSuccessUser");
         addTransition(WAITING_FOR_RESPONSE, new Message(Message.Types.REGISTRATION_REQUIRED), "registrationRequired");
         addTransition(REGISTRATION, new Message(Message.Types.REGISTRATION_REQUEST), "registrationRequest");
         addTransition(LOGIN_AFTER_REGISTRATION, new Message(Message.Types.LOGIN_AFTER_REG), "loginAfterRequest");
 
         // ITEMS
-        addTransition(LOGINED_ADMIN, new Message(Message.Types.ASKING_FOR_ITEMS), "askingForItemsADMIN");
-        addTransition(LOGINED_USER, new Message(Message.Types.ASKING_FOR_ITEMS), "askingForItemsUSER");
 
-        addTransition(REVIEW_ITEM_LISTS_ADMIN,new Message(Message.Types.SENDING_ITEMS), "listingItemsADMIN");
-        addTransition(REVIEW_ITEM_LISTS_USER,new Message(Message.Types.SENDING_ITEMS), "listingItemsUSER");
-
-        addTransition(VIEWING_LIST_ADMIN,new Message(Message.Types.ADD_ITEM), "addItem");
-        addTransition(VIEWING_LIST_ADMIN,new Message(Message.Types.DELETE_ITEM), "deleteItem");
-
-        addTransition(VIEWING_LIST_USER,new Message(Message.Types.ORDER_ITEM), "orderItem");
-        addTransition(VIEWING_LIST_USER,new Message(Message.Types.WRITE_FEEDBACK), "writeFeedback");
-        addTransition(VIEWING_LIST_USER,new Message(Message.Types.FEEDBACK), "feedbackFromServer");
-
-        //addTransition(VIEWING_LIST,new Message(Message.Types.ADD_ITEM), "addItem");
-        // addTransition(REVIEW_ITEM_LISTS,new Message(Message.Types.ADD_ITEM), "addItem");
-        //addTransition(VIEWING_LIST,new Message(Message.Types.ORDER_ITEM), "orderItem");
-        //addTransition(VIEWING_LIST,new Message(Message.Types.DELETE_ITEM), "deleteItem");
-        //addTransition(VIEWING_LIST,new Message(Message.Types.WRITE_FEEDBACK), "writeFeedback");
-
-        //addTransition(REVIEW_ITEM_LISTS,new Message(Message.Types.UNAUTHORISED), "unauthorized");
-
+        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_SORTED_ITEMS), "askingForSortedItems");
+        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForAvailableItems");
+        addTransition(VIEW_PRODUCTS, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "askingForFeedbacks");
+        addTransition(VIEW_SORTED_PRODUCTS, new Message(Message.Types.SENDING_SORTED_ITEMS), "reviewingSortedItems");
+        addTransition(VIEW_AVAILABLE_PRODUCTS, new Message(Message.Types.SENDING_AVAILABLE_ITEMS), "reviewingAvailableItems");
+        addTransition(VIEW_FEEDBACK, new Message(Message.Types.ASKING_FOR_FEEDBACK), "reviewingFeedbacks");
+        addTransition(ORDER, new Message(Message.Types.ORDER_ITEM), "orderAvailableItem");
+        addTransition(WRITE_FEEDBACK, new Message(Message.Types.FEEDBACK), "writeFeedback");
 
     }
-
 
     //
     // //
     // //   REGISTRACIJA I LOGIN
     // //
     //
-
 
     public void resolveDomain(IMessage message){
         Message msg = (Message)message;
@@ -89,23 +68,9 @@ public class Client_3 extends FSM implements IFSM {
         tcpMSG.addParam(Message.Params.IP, "127.0.0.1");
         sendMessage(tcpMSG);
         System.out.println("Resolved!");
-        setState(READY_TO_CONNECT);
-
-    }
-    public void registerOnServer(IMessage message){
-        Message msg = (Message) message;
-        msg.setToId(5);
-        msg.setMessageId(Message.Types.REGISTER_TO_SERVER);
-        System.out.println("Connecting...");
-        sendMessage(msg);
-        setState(CONNECTING);
-    }
-
-
-    public void connectionSuccessful(IMessage message){
-        System.out.println("Connected successful!");
         setState(LOGIN);
     }
+
     public void loginRequest(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
@@ -115,10 +80,7 @@ public class Client_3 extends FSM implements IFSM {
         System.out.println(msg.getParam("username") + msg.getParam("email") + msg.getParam("password") + msg.getParam("role"));
         setState(WAITING_FOR_RESPONSE);
     }
-    public void loginSuccessAdmin(IMessage message){
-        System.out.println("Admin login!");
-        setState(LOGINED_ADMIN);
-    }
+
     public void loginSuccessUser(IMessage message){
         System.out.println("User login!");
         setState(LOGINED_USER);
@@ -144,7 +106,7 @@ public class Client_3 extends FSM implements IFSM {
         System.out.println("Registred.");
         System.out.println("Login after registration...");
         System.out.println(msg.getParam("username") + msg.getParam("email") + msg.getParam("password") + msg.getParam("role"));
-        setState(WAITING_FOR_RESPONSE);
+        setState(VIEW_PRODUCTS);
     }
 
 
@@ -154,60 +116,48 @@ public class Client_3 extends FSM implements IFSM {
     // //
     //
 
-    public void askingForItemsADMIN(IMessage message){
+
+    public void askingForSortedItems(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
-        msg.setMessageId(Message.Types.ASKING_FOR_ITEMS);
+        msg.setMessageId(Message.Types.ASKING_FOR_SORTED_ITEMS);
         sendMessage(msg);
-        System.out.println("Sending request for items...");
-        setState(REVIEW_ITEM_LISTS_ADMIN);
+        System.out.println("Sending request for sorted items...");
+        setState(VIEW_SORTED_PRODUCTS);
     }
-
-    public void askingForItemsUSER(IMessage message){
+    public void askingForAvailableItems(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
-        msg.setMessageId(Message.Types.ASKING_FOR_ITEMS);
+        msg.setMessageId(Message.Types.ASKING_FOR_AVAILABLE_ITEMS);
         sendMessage(msg);
-        System.out.println("Sending request for items...");
-        setState(REVIEW_ITEM_LISTS_USER);
+        System.out.println("Sending request for available items...");
+        setState(VIEW_AVAILABLE_PRODUCTS);
     }
 
-    public void listingItemsADMIN(IMessage message){
+    public void reviewingSortedItems(IMessage message){
         Message msg = (Message) message;
         ArrayList<Items> items = new ArrayList<Items>();
         items = (ArrayList<Items>)msg.getParam(Message.Params.ITEMS, true);
-        System.out.println("Item list:");
+        System.out.println("Sorted item list:");
         items.forEach(items1 -> System.out.println(items1));
-        setState(VIEWING_LIST_ADMIN);
+        setState(VIEW_PRODUCTS);
     }
-
-    public void listingItemsUSER(IMessage message){
+    public void reviewingAvailableItems(IMessage message){
         Message msg = (Message) message;
+        if(msg.getParam(Message.Params.ORDER).equals("true")){
+            setState(ORDER);
+        }
         ArrayList<Items> items = new ArrayList<Items>();
         items = (ArrayList<Items>)msg.getParam(Message.Params.ITEMS, true);
-        System.out.println("Item list:");
+        System.out.println("Available item list:");
         items.forEach(items1 -> System.out.println(items1));
-        setState(VIEWING_LIST_USER);
+        setState(VIEW_PRODUCTS);
     }
 
-    public void addItem(IMessage message){
+    public void orderAvailableItem(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
-        msg.setMessageId(Message.Types.ADD_ITEM);
-        System.out.println("Unos parametara");
-        Scanner input = new Scanner(System.in);
-        String item_name = input.nextLine();
-        Integer item_count = input.nextInt();
-        Items adding_item = new Items(item_name,item_count);
-        msg.addParam(Message.Params.ITEMS, adding_item);
-        sendMessage(msg);
-        setState(REVIEW_ITEM_LISTS_ADMIN);
-    }
-
-    public void orderItem(IMessage message){
-        Message msg = (Message) message;
-        msg.setToId(5);
-        System.out.println("NARUCI ITEM");
+        System.out.println("Naruči item: ");
         msg.setMessageId(Message.Types.ORDER_ITEM);
         Scanner input = new Scanner(System.in);
         String item_name = input.nextLine();
@@ -215,42 +165,25 @@ public class Client_3 extends FSM implements IFSM {
         Items ordering_item = new Items(item_name,item_count);
         msg.addParam(Message.Params.ITEMS, ordering_item);
         sendMessage(msg);
-        setState(REVIEW_ITEM_LISTS_USER);
-    }
-
-    public void deleteItem(IMessage message){
-        Message msg = (Message) message;
-        msg.setToId(5);
-        msg.setMessageId(Message.Types.DELETE_ITEM);
-        System.out.println("Unos parametara za brisanje");
-        Scanner input = new Scanner(System.in);
-        String item_name = input.nextLine();
-        Integer item_count = input.nextInt();
-        Items adding_item = new Items(item_name,item_count);
-        msg.addParam(Message.Params.ITEMS, adding_item);
-        sendMessage(msg);
-        setState(REVIEW_ITEM_LISTS_ADMIN);
+        setState(WRITE_FEEDBACK);
     }
 
     public void writeFeedback(IMessage message){
         Message msg = (Message) message;
         msg.setToId(5);
-        msg.setMessageId(Message.Types.WRITE_FEEDBACK);
+        msg.setMessageId(Message.Types.FEEDBACK);
         System.out.println("Slanje feedbacka");
         sendMessage(msg);
-        setState(VIEWING_LIST_USER);
+        setState(VIEW_PRODUCTS);
     }
 
-    public void unauthorized(IMessage message){
-        System.out.println("Unauthorized!");
-        setState(VIEWING_LIST_USER);
-    }
-
-    public void feedbackFromServer(IMessage message){
+    public void reviewingFeedbacks(IMessage message){
         Message msg = (Message) message;
-        ArrayList<String> feedback =(ArrayList<String>)msg.getParam(Message.Params.FEEDBACK,true);
-        System.out.println("This is feedback: "+ feedback);
-        setState(VIEWING_LIST_USER);
+        ArrayList<Items> items = new ArrayList<Items>();
+        items = (ArrayList<Items>)msg.getParam(Message.Params.ITEMS, true);
+        System.out.println("Available item list:");
+        items.forEach(items1 -> System.out.println(items1));
+        setState(VIEW_PRODUCTS);
     }
 
     static int SERVER_PORT = 9999;
@@ -259,13 +192,13 @@ public class Client_3 extends FSM implements IFSM {
     public static void main(String[] args) throws Exception{
         // write your code here
         //client
-        XMPPChatClient XMPPChatClientFSM = new XMPPChatClient(0);
+        User UserFSM = new User(0);
         TcpTransportClient tcpFSM = new TcpTransportClient(5);
         tcpFSM.setServerPort(SERVER_PORT);
-        tcpFSM.setReceiver(XMPPChatClientFSM);
+        tcpFSM.setReceiver(UserFSM);
 
         Dispatcher dis = new Dispatcher(false);
-        dis.addFSM(XMPPChatClientFSM);
+        dis.addFSM(UserFSM);
         dis.addFSM(tcpFSM);
         dis.start();
 
@@ -339,38 +272,21 @@ public class Client_3 extends FSM implements IFSM {
 
         Thread.sleep(1000);
 
-        tempMsg = new Message(Message.Types.ASKING_FOR_ITEMS);
+        tempMsg = new Message(Message.Types.ASKING_FOR_SORTED_ITEMS);
         tempMsg.setToId(0);
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
-/*
-        tempMsg = new Message(Message.Types.ADD_ITEM);
+
+        tempMsg = new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "reha");
-        tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "adminn");
-        Items item = new Items("haba", 10);
-        tempMsg.addParam(Message.Params.ITEMS, item);
         dis.addMessage(tempMsg);
 
-//        Thread.sleep(10000);
-//
-//        tempMsg = new Message(Message.Types.DELETE_ITEM);
-//        tempMsg.setToId(0);
-//        dis.addMessage(tempMsg);
-
-*/
-
-        Thread.sleep(10000);
+        Thread.sleep(1000);
 
         tempMsg = new Message(Message.Types.ORDER_ITEM);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "reha");
-        tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "adminn");
+        tempMsg.addParam(Message.Params.ORDER, "true");
         dis.addMessage(tempMsg);
 
         Thread.sleep(15000);
@@ -385,7 +301,7 @@ public class Client_3 extends FSM implements IFSM {
         Scanner input_2 = new Scanner(System.in);
         Items itemm = new Items(input_2.nextLine(), input_2.nextInt());
         tempMsg.addParam(Message.Params.ITEMS, itemm);
-        tempMsg.addParam(Message.Params.FEEDBACK, "OVO JE GLUPO HAOS ELMEMI");
+        tempMsg.addParam(Message.Params.FEEDBACK, "Ovo je super!");
         dis.addMessage(tempMsg);
         Thread.sleep(10000);
 

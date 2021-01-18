@@ -35,11 +35,12 @@ public class XMPPChatServer extends FSM implements IFSM {
         addTransition(READY, new Message(Message.Types.LOGIN_AFTER_REG), "checkRegisterLogin");
         addTransition(READY, new Message(Message.Types.ASKING_FOR_SORTED_ITEMS), "sendingSortedItems");
         addTransition(READY, new Message(Message.Types.ASKING_FOR_AVAILABLE_ITEMS), "sendingAvailableItems");
+        addTransition(READY, new Message(Message.Types.ASKING_FOR_FEEDBACK), "sendingFeedback");
         addTransition(READY, new Message(Message.Types.ORDER_ITEM), "orderingItems");
         addTransition(READY, new Message(Message.Types.ADD_ITEM), "addingItems");
         addTransition(READY, new Message(Message.Types.EDIT_ITEM), "editingItems");
         addTransition(READY, new Message(Message.Types.DELETE_ITEM), "deletionItems");
-        addTransition(READY, new Message(Message.Types.WRITE_FEEDBACK), "getFeedback");
+        addTransition(READY, new Message(Message.Types.WRITE_FEEDBACK), "writeFeedback");
     }
 
 
@@ -196,38 +197,36 @@ public class XMPPChatServer extends FSM implements IFSM {
         sendMessage(response);
     }
 
-    public void deletionItems(IMessage message){
+    public void deletionItems(IMessage message) {
         Message msg = (Message) message;
         final Items item = (Items) msg.getParam(Message.Params.ITEMS, true);
-        items.removeIf(s->s.equals(item));
+        items.removeIf(s -> s.equals(item));
         System.out.println("Item deleted :)");
         Message response = new Message(Message.Types.SENDING_ITEMS);
         response.setToAddress(msg.getFromAddress());
-        items.forEach(items1 -> {System.out.println(items1);});
+        items.forEach(items1 -> {
+            System.out.println(items1);
+        });
         response.addParam(Message.Params.ITEMS, items);
         sendMessage(response);
-
-        /*boolean found = false;
+    }
+    public void editingItems(IMessage message){
+        Message msg = (Message) message;
+        final Items item = (Items) msg.getParam(Message.Params.ITEMS, true);
+        Message response = new Message(Message.Types.SENDING_ITEMS);
+        response.setToAddress(msg.getFromAddress());
         for (Items u : items) {
-            if(user.equals(u)) {
-                found = true;
+
+            if(item.equals(u)) {
+                int new_value = item.getCOUNT();
+                u.setCOUNT(new_value);
                 break;
             }
         }
-        if(found){
-            Message response = new Message(Message.Types.LOGIN_SUCCESSFUL);
-            response.setToAddress(msg.getFromAddress());
-            sendMessage(response);
-            System.out.println("Login on server.");
-        } else {
-            Message response = new Message(Message.Types.REGISTRATION_REQUIRED);
-            response.setToAddress(msg.getFromAddress());
-            sendMessage(response);
-            System.out.println("Registration on server.");
-        }*/
+        sendMessage(response);
     }
 
-    public void getFeedback(IMessage message) {
+    public void writeFeedback(IMessage message) {
         Message msg = (Message) message;
         String feedback = msg.getParam(Message.Params.FEEDBACK);
         Items itemmm = new Items();
@@ -241,6 +240,14 @@ public class XMPPChatServer extends FSM implements IFSM {
                 }
             }
         }
+    }
+
+    public void sendingFeedback(IMessage message) {
+        Message msg = (Message) message;
+        String feedback = msg.getParam(Message.Params.FEEDBACK);
+        Items itemmm = new Items();
+        itemmm = (Items) msg.getParam(Message.Params.ITEMS, true);
+        Users user = new Users(msg.getParam(Message.Params.USERNAME), msg.getParam(Message.Params.EMAIL), msg.getParam(Message.Params.PASSWORD), msg.getParam(Message.Params.ROLE));
         Message response = new Message(Message.Types.FEEDBACK);
         for (Map.Entry<Users, ArrayList<Items>> entry : items_feedback.entrySet()) {
             Users userrrr = entry.getKey();
@@ -250,10 +257,10 @@ public class XMPPChatServer extends FSM implements IFSM {
                     System.out.println(users_location.get(userrrr.getUSERNAME()));
                     response.addParam(Message.Params.FEEDBACK, i.getFEEDBACK());
                     response.setToAddress(users_location.get(userrrr.getUSERNAME()));
-                    System.out.println(i.getFEEDBACK());
-                    System.out.println(users_location);
+                    //System.out.println(i.getFEEDBACK());
+                    //System.out.println(users_location);
                     sendMessage(response);
-                    }
+                }
             }
             System.out.println(feedback);
         }

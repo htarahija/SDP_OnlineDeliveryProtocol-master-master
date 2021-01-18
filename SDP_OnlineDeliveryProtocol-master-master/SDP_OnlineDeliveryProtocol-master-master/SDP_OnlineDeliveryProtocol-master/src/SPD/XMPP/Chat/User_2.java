@@ -9,10 +9,9 @@ import FSM.IMessage;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class Client_2 extends FSM implements IFSM {
+public class User_2 extends FSM implements IFSM {
     static String TOKEN = "123";
     static int IDLE = 0;
     static int READY_TO_CONNECT = 1;
@@ -29,7 +28,7 @@ public class Client_2 extends FSM implements IFSM {
     static int VIEWING_LIST_USER = 12;
 
 
-    public Client_2(int id) {
+    public User_2(int id) {
         super(id);
     }
     @Override
@@ -259,13 +258,13 @@ public class Client_2 extends FSM implements IFSM {
     public static void main(String[] args) throws Exception{
         // write your code here
         //client
-        XMPPChatClient XMPPChatClientFSM = new XMPPChatClient(0);
+        User UserFSM = new User(0);
         TcpTransportClient tcpFSM = new TcpTransportClient(5);
         tcpFSM.setServerPort(SERVER_PORT);
-        tcpFSM.setReceiver(XMPPChatClientFSM);
+        tcpFSM.setReceiver(UserFSM);
 
         Dispatcher dis = new Dispatcher(false);
-        dis.addFSM(XMPPChatClientFSM);
+        dis.addFSM(UserFSM);
         dis.addFSM(tcpFSM);
         dis.start();
 
@@ -311,30 +310,30 @@ public class Client_2 extends FSM implements IFSM {
 
         tempMsg = new Message(Message.Types.LOGIN_REQUEST);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "benjo");
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
         tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "benjo@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "admin");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
 
         tempMsg = new Message(Message.Types.REGISTRATION_REQUEST);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "benjo");
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
         tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "benjo@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "admin");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
 
         tempMsg = new Message(Message.Types.LOGIN_AFTER_REG);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "benjo");
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
         tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "benjo@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "admin");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
@@ -344,27 +343,50 @@ public class Client_2 extends FSM implements IFSM {
         dis.addMessage(tempMsg);
 
         Thread.sleep(1000);
-
+/*
         tempMsg = new Message(Message.Types.ADD_ITEM);
         tempMsg.setToId(0);
-        tempMsg.addParam(Message.Params.USERNAME, "benjo");
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
         tempMsg.addParam(Message.Params.PASSWORD, "123");
-        tempMsg.addParam(Message.Params.EMAIL, "benjo@a.a");
-        tempMsg.addParam(Message.Params.ROLE, "admin");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
         Items item = new Items("haba", 10);
         tempMsg.addParam(Message.Params.ITEMS, item);
         dis.addMessage(tempMsg);
 
-        /*
+//        Thread.sleep(10000);
+//
+//        tempMsg = new Message(Message.Types.DELETE_ITEM);
+//        tempMsg.setToId(0);
+//        dis.addMessage(tempMsg);
+
+*/
+
         Thread.sleep(10000);
 
-        tempMsg = new Message(Message.Types.DELETE_ITEM);
+        tempMsg = new Message(Message.Types.ORDER_ITEM);
         tempMsg.setToId(0);
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
+        tempMsg.addParam(Message.Params.PASSWORD, "123");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
         dis.addMessage(tempMsg);
-        */
 
+        Thread.sleep(15000);
 
-
+        tempMsg = new Message(Message.Types.WRITE_FEEDBACK);
+        tempMsg.setToId(0);
+        tempMsg.addParam(Message.Params.USERNAME, "reha");
+        tempMsg.addParam(Message.Params.PASSWORD, "123");
+        tempMsg.addParam(Message.Params.EMAIL, "a@a.a");
+        tempMsg.addParam(Message.Params.ROLE, "adminn");
+        System.out.println("Unesite Vaš feedback: ");
+        Scanner input_2 = new Scanner(System.in);
+        Items itemm = new Items(input_2.nextLine(), input_2.nextInt());
+        tempMsg.addParam(Message.Params.ITEMS, itemm);
+        tempMsg.addParam(Message.Params.FEEDBACK, "OVO JE GLUPO HAOS ELMEMI");
+        dis.addMessage(tempMsg);
+        Thread.sleep(10000);
 
 
         while(true){
